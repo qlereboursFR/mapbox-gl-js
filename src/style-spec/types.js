@@ -83,6 +83,7 @@ export type LightSpecification = {|
 export type VectorSourceSpecification = {
     "type": "vector",
     "url"?: string,
+    "sourceAccessToken"?: string,
     "tiles"?: Array<string>,
     "bounds"?: [number, number, number, number],
     "scheme"?: "xyz" | "tms",

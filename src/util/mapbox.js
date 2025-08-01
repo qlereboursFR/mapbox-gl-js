@@ -88,7 +88,7 @@ export class RequestManager {
         // TileJSON requests need a secure flag appended to their URLs so
         // that the server knows to send SSL-ified resource references.
         urlObject.params.push('secure');
-        return this._makeAPIURL(urlObject, this._customAccessToken || accessToken);
+        return this._makeAPIURL(urlObject, accessToken || this._customAccessToken);
     }
 
     normalizeSpriteURL(url: string, format: string, extension: string, accessToken?: string): string {
@@ -101,7 +101,7 @@ export class RequestManager {
         return this._makeAPIURL(urlObject, this._customAccessToken || accessToken);
     }
 
-    normalizeTileURL(tileURL: string, tileSize?: ?number): string {
+    normalizeTileURL(tileURL: string, tileSize?: ?number, customAccessToken?: ?string): string {
         if (this._isSkuTokenExpired()) {
             this._createSkuToken();
         }
@@ -121,7 +121,7 @@ export class RequestManager {
         urlObject.path = urlObject.path.replace(tileURLAPIPrefixRe, '/');
         urlObject.path = `/v4${urlObject.path}`;
 
-        const accessToken = this._customAccessToken || getAccessToken(urlObject.params) || config.ACCESS_TOKEN;
+        const accessToken = customAccessToken || this._customAccessToken || getAccessToken(urlObject.params) || config.ACCESS_TOKEN;
         if (config.REQUIRE_ACCESS_TOKEN && accessToken && this._skuToken) {
             urlObject.params.push(`sku=${this._skuToken}`);
         }
