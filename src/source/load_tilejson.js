@@ -32,7 +32,7 @@ export default function(options: any, requestManager: RequestManager, callback: 
     };
 
     if (options.url) {
-        return getJSON(requestManager.transformRequest(requestManager.normalizeSourceURL(options.url), ResourceType.Source), loaded);
+        return getJSON(requestManager.transformRequest(requestManager.normalizeSourceURL(options.url, options.sourceAccessToken), ResourceType.Source), loaded);
     } else {
         return browser.frame(() => loaded(null, options));
     }
